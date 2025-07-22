@@ -822,7 +822,8 @@ html * {
   transition: 0.2s;
 }
 .clickBox .start:disabled {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
 }
 .clickBox .start:hover {
   opacity: 0.6;
