@@ -1,0 +1,679 @@
+@charset "UTF-8";
+@import "../../style.scss";
+
+// スクロール
+.scrollWrap {
+  position: relative;
+  flex: 1;
+
+  .arrowBox {
+    z-index: 2;
+    position: absolute;
+    right: 30 / $pc_font * 1rem;
+    top: 50%;
+    width: 100 / $pc_font * 1rem;
+    transform: translateY(-50%);
+    opacity: 0.1;
+
+    &.active {
+      opacity: 1;
+
+      &.up {
+        animation: 0.3s Up infinite alternate;
+      }
+
+      &.down {
+        animation: 0.3s Down infinite alternate;
+      }
+    }
+  }
+}
+
+.scrollBox {
+  position: relative;
+  background-color: #fefefe;
+  height: 600 / $pc_font * 1rem;
+  border-radius: 32 / $pc_font * 1rem;
+  border: 6 / $pc_font * 1rem solid yellow;
+  overflow: hidden;
+
+  &.active {
+    overflow: scroll;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .charaSpeakBox {
+    top: 50%;
+    width: 80%;
+    background-color: #333;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      display: inline-block;
+      object-fit: contain;
+      height: 100 / $pc_font * 1rem;
+      margin: 30 / $pc_font * 1rem 0;
+    }
+  }
+}
+
+// パズルCSS
+#dd_canvas {
+  border: 6 / $pc_font * 1rem solid #ddd;
+  border-radius: 16 / $pc_font * 1rem;
+}
+
+.dragWrap {
+  width: 500 / $pc_font * 1rem;
+  height: 140 / $pc_font * 1rem;
+  margin: 40 / $pc_font * 1rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ddd;
+  border-radius: 16 / $pc_font * 1rem;
+
+  img {
+    display: block;
+    width: 60 / $pc_font * 1rem;
+    margin: 12 / $pc_font * 1rem;
+    display: none;
+    cursor: pointer;
+  }
+}
+
+.selecBtnBox {
+  z-index: 99;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  background-color: rgba(#000, 0.7);
+  width: 720 / $pc_font * 1rem;
+  height: 250 / $pc_font * 1rem;
+  border-radius: 18 / $pc_font * 1rem;
+  border: 4 / $pc_font * 1rem solid #fff;
+  box-shadow: 0 0 8 / $pc_font * 1rem #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 20 / $pc_font * 1rem;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s;
+
+  &.show {
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .sRead {
+    font-size: 32 / $pc_font * 1rem;
+    color: #fff;
+    letter-spacing: 0.15em;
+    font-weight: 900;
+  }
+
+  .innerWrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+  }
+
+  .selectBtn {
+    width: 47%;
+    color: #fff;
+    border: 2 / $pc_font * 1rem solid #fff;
+    font-size: 24 / $pc_font * 1rem;
+    outline: none;
+    padding: 11 / $pc_font * 1rem 0 8 / $pc_font * 1rem;
+    border-radius: 10 / $pc_font * 1rem;
+    background-color: orange;
+    letter-spacing: 0.1em;
+    box-shadow: inset 0 0 2 / $pc_font * 1rem #000;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.txtImgBox {
+  z-index: 99;
+  width: 45%;
+  position: fixed;
+  transition: 0.3s;
+  opacity: 0;
+  transform: translateX(850 / $pc_font * 1rem);
+  pointer-events: none;
+
+  &.show {
+    animation: poyoyon 0.5s cubic-bezier(0.12, 0, 0.39, 0) 1 forwards;
+    top: 35%;
+    left: 30%;
+  }
+
+  &.startShow {
+    animation: poyoyon2 0.5s cubic-bezier(0.12, 0, 0.39, 0) 1 forwards;
+    top: 35%;
+    left: 30%;
+  }
+
+  &.startShow2 {
+    top: 48%;
+    left: 27%;
+    animation: poyoyon2 0.5s cubic-bezier(0.12, 0, 0.39, 0) 1 forwards;
+  }
+}
+
+.wrapper {
+  z-index: 2;
+  position: relative;
+  background-color: rgb(255, 229, 234);
+  background-image: url(../../../img/common/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    z-index: -1;
+    position: absolute;
+    content: "";
+    width: 480 / $pc_font * 1rem;
+    height: 600 / $pc_font * 1rem;
+    opacity: 0.3;
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 1%;
+  }
+
+  &::before {
+    background-position: right;
+    bottom: 0;
+    left: -280 / $pc_font * 1rem;
+  }
+
+  &::after {
+    background-position: left;
+    top: 0;
+    right: -280 / $pc_font * 1rem;
+  }
+}
+
+.globalTitBox {
+  min-width: 1000px;
+  position: relative;
+  font-size: 32 / $pc_font * 1rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: #fff;
+  padding: 24 / $pc_font * 1rem;
+  border: 4 / $pc_font * 1rem solid #fff;
+  width: 100%;
+  text-align: center;
+  border-radius: 16 / $pc_font * 1rem 16 / $pc_font * 1rem 0 0;
+  background-color: #333;
+}
+
+.contsWrap {
+  height: 100%;
+}
+
+.clickBox {
+  width: 100%;
+  height: 90%;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+
+  .start {
+    border: 6 / $pc_font * 1rem solid #fff;
+    border-radius: 48 / $pc_font * 1rem;
+    width: 300 / $pc_font * 1rem;
+    padding: 18 / $pc_font * 1rem 24 / $pc_font * 1rem;
+    font-size: 32 / $pc_font * 1rem;
+    margin: 0 auto 40 / $pc_font * 1rem;
+    display: block;
+    font-weight: 900;
+    background-color: orange;
+    color: #fff;
+    transition: 0.2s;
+
+    &:disabled {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  .lWrap {
+    width: 700 / $pc_font * 1rem;
+    margin-right: 20 / $pc_font * 1rem;
+  }
+
+  .clickList {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 700 / $pc_font * 1rem;
+    padding: 16 / $pc_font * 1rem;
+    margin-bottom: 30 / $pc_font * 1rem;
+    border: 4 / $pc_font * 1rem solid #fff;
+    border-radius: 16 / $pc_font * 1rem;
+    background-color: rgba(#333, 0.4);
+    box-shadow: inset 0 0 80 / $pc_font * 1rem #000;
+  }
+
+  .clickItem,
+  .clickItem2 {
+    // border: 3 / $pc_font * 1rem solid #fff;
+    margin: 5 / $pc_font * 1rem 0;
+    width: 124 / $pc_font * 1rem;
+    height: 124 / $pc_font * 1rem;
+    border-radius: 16 / $pc_font * 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .imgWrap {
+      border: none;
+      outline: none;
+      position: relative;
+      display: inline-block;
+      transition: 0.2s;
+      pointer-events: auto;
+      cursor: pointer;
+      display: none;
+
+      .dammy {
+        opacity: 0.5;
+
+        &.clear {
+          opacity: 1;
+        }
+      }
+
+      .getText {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 56 / $pc_font * 1rem;
+        font-weight: 900;
+        color: yellow;
+        text-shadow: 0 0 8 / $pc_font * 1rem #000;
+        opacity: 0;
+        transition: 0.2;
+
+      }
+
+      &::after {
+        content: "クリア!!";
+        position: absolute;
+        left: 50%;
+        top: 80%;
+        transform: translate(-50%, -80%) scale(0.5);
+        width: 100%;
+        font-size: 15 / $pc_font * 1rem;
+        padding: 4 / $pc_font * 1rem;
+        text-align: center;
+        font-weight: 900;
+        background-color: lemonchiffon;
+        border-radius: 16 / $pc_font * 1rem;
+        border: 3 / $pc_font * 1rem solid #333;
+        color: #333;
+        opacity: 0;
+        transition: 0.3s;
+        pointer-events: none;
+      }
+
+      &.type02::after {
+        content: "ゲット!";
+        font-size: 17 / $pc_font * 1rem;
+        border-radius: 24 / $pc_font * 1rem;
+        border: 4 / $pc_font * 1rem solid #fff;
+        color: yellow;
+        text-shadow: 0 2 / $pc_font * 1rem 2 / $pc_font * 1rem #000;
+        width: 156 / $pc_font * 1rem;
+        padding: 8 / $pc_font * 1rem 0 5 / $pc_font * 1rem;
+        background-color: rgba(red, 0.8);
+        box-shadow: inset 0 0 5 / $pc_font * 1rem #333;
+      }
+
+      &.active {
+        pointer-events: none;
+
+        .getText {
+          z-index: 2;
+          animation: 0.8s pointAnim forwards;
+        }
+
+        &::after {
+          opacity: 1;
+          transform: translate(-50%, -80%) scale(1);
+        }
+
+        &.type02::after {
+          font-size: 22 / $pc_font * 1rem;
+          transform: translate(-50%, -80%) scale(0.67);
+        }
+
+        img {
+          width: 70 / $pc_font * 1rem;
+        }
+
+        &.type02 img {
+          width: 140 / $pc_font * 1rem;
+        }
+      }
+
+      img {
+        object-fit: contain;
+        object-position: center;
+        width: 90 / $pc_font * 1rem;
+        transition: 0.2s;
+      }
+
+      &.show {
+        display: block;
+        opacity: 1;
+        animation: elasticity 0.8s ease alternate;
+
+        &.removeFlash {
+          animation: deleteMove 0.2s ease alternate infinite;
+        }
+      }
+    }
+  }
+}
+
+.flexBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 1000px;
+  height: auto;
+  display: flex;
+  align-items: flex-start;
+
+  .innerStatus {
+    user-select: none;
+  }
+
+  &.type01 {
+    justify-content: center;
+    flex-direction: row-reverse;
+
+    .timeBox {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+
+      .time {
+        padding-bottom: 15 / $pc_font * 1rem;
+        font-size: 120 / $pc_font * 1rem;
+        line-height: 1;
+        color: yellow;
+        font-weight: 900;
+        text-shadow: 6 / $pc_font * 1rem 6 / $pc_font * 1rem 0 #333, -6 / $pc_font * 1rem -6 / $pc_font * 1rem 0 #333,
+          -6 / $pc_font * 1rem 6 / $pc_font * 1rem 0 #333, 6 / $pc_font * 1rem -6 / $pc_font * 1rem 0 #333,
+          0px 6 / $pc_font * 1rem 0 #333, 0-6 / $pc_font * 1rem 0 #333,
+          -6 / $pc_font * 1rem 0 0 #333, 6 / $pc_font * 1rem 0 0 #333;
+      }
+    }
+
+    .statusBox {
+      width: 400 / $pc_font * 1rem;
+      color: #fff;
+      font-weight: 600;
+      padding-left: 20 / $pc_font * 1rem;
+
+      &:nth-child(n+2) {
+        margin-top: 20 / $pc_font * 1rem;
+      }
+
+      .topTxt {
+        font-size: 24 / $pc_font * 1rem;
+        text-align: center;
+        padding-bottom: 12 / $pc_font * 1rem;
+      }
+
+      .innerStatus {
+        user-select: none;
+        margin: auto;
+        border-radius: 48 / $pc_font * 1rem;
+        background-color: rgba(#fff, 0.4);
+        box-shadow: inset 0 0 72 / $pc_font * 1rem #fff;
+        border: 4 / $pc_font * 1rem solid #fff;
+      }
+
+      .addProblem {
+        flex: 1;
+        text-align: center;
+      }
+
+      .pointWrap {
+        flex: 1;
+        text-align: center;
+
+        .tit {
+          // background-color: #ddd;
+          background-color: rgba(#000, 0.5);
+          border-radius: 45 / $pc_font * 1rem 45 / $pc_font * 1rem 0 0;
+          padding: 12 / $pc_font * 1rem;
+          font-size: 24 / $pc_font * 1rem;
+        }
+
+        .pointNum {
+          padding: 12 / $pc_font * 1rem;
+          font-size: 40 / $pc_font * 1rem;
+          color: yellow;
+          text-align: center;
+          text-shadow: 2 / $pc_font * 1rem 2 / $pc_font * 1rem 0 #333, -2 / $pc_font * 1rem -2 / $pc_font * 1rem 0 #333,
+            -2 / $pc_font * 1rem 2 / $pc_font * 1rem 0 #333, 2 / $pc_font * 1rem -2 / $pc_font * 1rem 0 #333,
+            0px 2 / $pc_font * 1rem 0 #333, 0-2 / $pc_font * 1rem 0 #333,
+            -2 / $pc_font * 1rem 0 0 #333, 2 / $pc_font * 1rem 0 0 #333;
+          transition: 0.2s;
+        }
+      }
+
+      .addProblem {
+        border-radius: 0 0 8 / $pc_font * 1rem 8 / $pc_font * 1rem;
+
+        .addTxt {
+          background-color: rgba(#000, 0.5);
+          padding: 12 / $pc_font * 1rem;
+          font-size: 22 / $pc_font * 1rem;
+        }
+
+        .numberBox {
+          padding: 12 / $pc_font * 1rem;
+          font-size: 22 / $pc_font * 1rem;
+          border-radius: 0 0 20 / $pc_font * 1rem 20 / $pc_font * 1rem;
+
+          .number {
+            color: yellow;
+            font-size: 40 / $pc_font * 1rem;
+            text-shadow: 2 / $pc_font * 1rem 2 / $pc_font * 1rem 0 #333, -2 / $pc_font * 1rem -2 / $pc_font * 1rem 0 #333,
+              -2 / $pc_font * 1rem 2 / $pc_font * 1rem 0 #333, 2 / $pc_font * 1rem -2 / $pc_font * 1rem 0 #333,
+              0px 2 / $pc_font * 1rem 0 #333, 0-2 / $pc_font * 1rem 0 #333,
+              -2 / $pc_font * 1rem 0 0 #333, 2 / $pc_font * 1rem 0 0 #333;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@keyframes elasticity {
+
+  20% {
+    transform: scale3d(0.8, 0.7, 1);
+  }
+
+  40% {
+    transform: scale3d(0.7, 1, 1);
+  }
+
+  60% {
+    transform: scale3d(1, 0.8, 1);
+  }
+
+  80% {
+    transform: scale3d(0.8, 1.1, 1);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes poyoyon {
+  0% {
+    transform: translateX(850 / $pc_font * 1rem);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateX(0);
+  }
+
+  65% {
+    transform: translateX(60 / $pc_font * 1rem);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes poyoyon2 {
+  0% {
+    transform: translateX(560 / $pc_font * 1rem);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateX(0);
+  }
+
+  65% {
+    transform: translateX(60 / $pc_font * 1rem);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes Up {
+  0% {
+    transform: translateY(-30%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(-70%);
+  }
+
+  20%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes Down {
+  0% {
+    transform: translateY(-30%) rotate(180deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(-70%) rotate(180deg);
+  }
+
+  20%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pointAnim {
+  0% {
+    top: 30%;
+    opacity: 1;
+  }
+
+  50% {
+    top: -10%;
+    opacity: 1;
+  }
+
+  80% {
+    top: -10%;
+    opacity: 1;
+  }
+
+  100% {
+    top: -10%;
+    opacity: 0;
+  }
+}
+
+@keyframes deleteMove {
+  0% {
+    transform: rotate(5deg);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: rotate(-5deg);
+  }
+
+  80% {
+    transform: rotate(5deg);
+  }
+
+  100% {
+    transform: rotate(-5deg);
+    opacity: 1;
+  }
+}

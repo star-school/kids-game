@@ -1,0 +1,46 @@
+@charset "UTF-8";
+@import "../../style.scss";
+
+.topWrap {
+  z-index: 99;
+  position: relative;
+  background-image: url(../../../img/common/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh;
+
+  .contentBox {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    width: 1200 / $pc_font * 1rem;
+    height: 680 / $pc_font * 1rem;
+    background-image: url(../../../img/common/title.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    .menuOpen {
+      position: absolute;
+      bottom: 40 / $pc_font * 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      outline: none;
+      border: 6 / $pc_font * 1rem solid #fff;      
+      padding: 20 / $pc_font * 1rem 96 / $pc_font * 1rem 16 / $pc_font * 1rem;
+      font-size: 40 / $pc_font * 1rem;
+      font-weight: 900;
+      border-radius: 16 / $pc_font * 1rem;
+      background-color: #333;
+      transition: 0.2s;
+      color: yellow;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
