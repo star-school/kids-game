@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+// ※ importの順番は崩さないでください
+// ※ コンポーネントの追加は下から追加してください
+
+@import "./scss/base/reset";
+@import "./scss/setting/config";
+@import "./scss/mixin/other";
+@import "./scss/mixin/media";
+@import "./scss/base/base";
+@import "./scss/component/menu";
+@import "./scss/component/loading";
