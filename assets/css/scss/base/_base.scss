@@ -1,0 +1,109 @@
+/*================================
+	サイト共通設定
+=================================*/
+
+html {
+	font-family: $font;
+	font-size: $pc_font * 1px;
+	word-wrap: break-word;
+	width: 100%;
+
+	* {
+		font-weight: inherit;
+		box-sizing: border-box;
+	}
+	height: 100%;
+}
+
+/*================================
+	PC 共通設定
+=================================*/
+@include media-pc {
+	html {
+		overflow-y: scroll;
+	}
+
+	.sp {
+		display: none;
+	}
+
+	.inner {
+		width: (($pc_all * 100) - (100 * 2)) / $pc_all * 1%;
+		max-width: 1400px;
+		margin: auto;
+	}
+}
+
+/*================================
+	PC 相対値範囲設定
+=================================*/
+// この範囲内で相対値になる
+@include media($min: $bp, $max: 1600) {
+	html {
+		font-size: $pc_font/16 * 1vw;
+	}
+}
+
+/*================================
+	SP 共通設定
+=================================*/
+@include media-sp {
+	html {
+		font-size: $sp_font/$sp_all * 1vw;
+	}
+	.inner {
+		width: 90%;
+		margin: auto;
+	}
+	.pc {
+		display: none;
+	}
+}
+
+/*================================
+	JS処理系
+=================================*/
+
+// スクロールフェードイン
+// 細かい指示等ある場合は下記サイトごとに書きソースを調整
+.sa {
+	opacity: 0;
+	transition: all 0.5s ease;
+}
+
+.sa.show {
+	opacity: 1;
+	transform: none;
+}
+
+.sa--lr {
+	transform: translate(-100px, 0);
+}
+
+.sa--rl {
+	transform: translate(100px, 0);
+}
+
+.sa--up {
+	transform: translate(0, 100px);
+}
+
+.sa--down {
+	transform: translate(0, -100px);
+}
+
+.sa--scaleUp {
+	transform: scale(0.5);
+}
+
+.sa--scaleDown {
+	transform: scale(1.5);
+}
+
+.sa--rotateL {
+	transform: rotate(180deg);
+}
+
+.sa--rotateR {
+	transform: rotate(-180deg);
+}

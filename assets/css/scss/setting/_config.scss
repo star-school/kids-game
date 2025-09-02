@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+/*================================
+	サイトごとに設定
+=================================*/
+
+// ブレイクポイント768ではない時は設定してください
+$bp: 768;
+
+// WebFont設定
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+JP:100,300,400,500,700,900&display=swap&subset=japanese");
+
+// フォント設定
+$font: "Noto Sans JP", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", YuGothic, "Yu Gothic", "メイリオ", "Meiryo",
+	"ＭＳ Ｐゴシック", "MS PGothic", Sans-Serif;
+$font01: YuMincho, "Yu Mincho", serif;
+$font02: "Noto Serif JP", "游明朝体", "Yu Mincho", "游明朝", YuMincho, "HG明朝E", "Hiragino Mincho ProN",
+	"ヒラギノ明朝 ProN", "Hiragino Mincho ProN", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+$font03: "Cormorant Garamond";
+
+// 基本行間
+$lineHeight: 1.6;
+
+// 基本カラー設定
+$color01: #000;
+$c_gray01: #f9f9f9;
+$c_red01: #e50012;
+
+// 計算式に使用する変数
+$pc_all: 1600/100;
+$pc_inner: 1400/100;
+$pc_font: 16;
+
+$sp_all: 768/100;
+$sp_inner: 687/100;
+$sp_font: 28;

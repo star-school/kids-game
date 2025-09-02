@@ -1,0 +1,29 @@
+
+
+//line-heightとmarginの計算
+@mixin mg_lh($mt: 0px, $mb: 0px, $mr: null, $ml: null, $lH: 26/15, $lastMb0: false, $lastType: false) {
+	$lH_calc: $lH;
+	line-height: $lH_calc;
+	margin-top: calc(#{$mt} - (((1em *#{$lH_calc}) - 1em) / 2));
+	margin-right: $mr;
+	margin-left: $ml;
+	@if $lastMb0 {
+		@if $lastType {
+			&:last-of-type {
+				margin-bottom: calc(0px - (((1em *#{$lH_calc}) - 1em) / 2));
+			}
+			&:not(:last-of-type) {
+				margin-bottom: calc(#{$mb} - (((1em *#{$lH_calc}) - 1em) / 2));
+			}
+		} @else {
+			&:last-child {
+				margin-bottom: calc(0px - (((1em *#{$lH_calc}) - 1em) / 2));
+			}
+			&:not(:last-child) {
+				margin-bottom: calc(#{$mb} - (((1em *#{$lH_calc}) - 1em) / 2));
+			}
+		}
+	} @else {
+		margin-bottom: calc(#{$mb} - (((1em *#{$lH_calc}) - 1em) / 2));
+	}
+}
