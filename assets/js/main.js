@@ -30,7 +30,7 @@ let imgArray02 = [
   './assets/img/common/ふくろ02.png',
   './assets/img/common/ミミック02.png',
 ]
-let pointArry = [100, 50, 20];
+let pointArry = [100, 50, 10];
 let showTimeArray = [500, 1000, 1500, 2000, 2500];
 
 class Loading {
@@ -222,9 +222,12 @@ class ClickAction {
     this.remaining++;
     this.remainingNum.textContent = this.remaining;
     if (pointArry.indexOf(pointArry[e.currentTarget.dataset.point]) === 2) {
-      select3.play();
-      this.point -= pointArry[e.currentTarget.dataset.point];
-      e.currentTarget.lastElementChild.textContent = "-" + pointArry[e.currentTarget.dataset.point];
+      // select3.play();
+      // this.point -= pointArry[e.currentTarget.dataset.point];
+      // e.currentTarget.lastElementChild.textContent = "-" + pointArry[e.currentTarget.dataset.point];
+      select2.play();
+      this.point += pointArry[e.currentTarget.dataset.point];
+      e.currentTarget.lastElementChild.textContent = "+" + pointArry[e.currentTarget.dataset.point];
     } else {
       select2.play();
       this.point += pointArry[e.currentTarget.dataset.point];
